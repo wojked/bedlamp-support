@@ -1,67 +1,48 @@
+$fn = 128;
 fudge = 0.1;
 
 HEIGHT = 5;
 SCALE = 3.58;
 
-//scale([SCALE,SCALE,HEIGHT])
-//color("orange")
-//bed_holder();
-color("pink")
-bed_holder_alt();
-translate([26.5,60,0])
-scale([SCALE,SCALE,HEIGHT])
 color("green")
-lamp_holder();
+bed_holder_new();
 
 color("pink")
+translate([26.5,60,0])
 lamp_holder_alt();
 
 extra_support();
 extra_support_mini();
 
+module rounded_corners(width, height, depth, corner_curve){
+    x_translate = width-corner_curve;
+    y_translate = height-corner_curve;     
+    
+    hull(){
+            translate([-x_translate/2, -y_translate/2, 0])
+            cylinder(depth,corner_curve/2, corner_curve/2, true);    
+            
+            translate([-x_translate/2, y_translate/2, 0])
+            cylinder(depth,corner_curve/2, corner_curve/2, true);
 
-module poly_rect37817(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[-2.006730,48.513471],[14.457087,48.513471],[14.457087,54.094666],[-2.006730,54.094666]]);
-  }
+            translate([x_translate/2, y_translate/2, 0])
+            cylinder(depth,corner_curve/2, corner_curve/2, true);        
+            
+            translate([x_translate/2, -y_translate/2, 0])
+            cylinder(depth,corner_curve/2, corner_curve/2, true);        
+    }        
 }
 
-module poly_rect3779(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[-14.457087,-54.094666],[-2.006729,-54.094666],[-2.006729,54.094657],[-14.457087,54.094657]]);
-  }
-}
-
-module poly_rect3781(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[-2.006730,-54.094666],[14.457087,-54.094666],[14.457087,-48.513471],[-2.006730,-48.513471]]);
-  }
-}
-
-module bed_holder_alt(){
+module bed_holder_new(){
     distance = 16.5; //16.5
     thickness = 5;
     height = 32;
     top_lenght = distance + 2*thickness;
-    translate([0,-thickness,0])
-    union(){
-        translate([-height/2,distance/2+thickness,0])
-        cube([height,thickness,5], false);        
-        
-        translate([-height/2,-distance/2,0])
-        cube([height,thickness,5], false);                
-        
-        translate([height/2-thickness, -top_lenght/2+thickness, 0])
-        cube([thickness,top_lenght,5], false);                
+    translate([0,0,5/2])
+    difference(){
+        rounded_corners(height, top_lenght, 5, 5);            
+        translate([-thickness,0,0])
+        cube([height, distance, 5*2], true);
     }
 }
 
@@ -78,9 +59,22 @@ module lamp_holder(){
 }
 
 module lamp_holder_alt(){
-    distance = 30;
-    
-    cube([10,10,10], false);
+    width = 109;
+//    translate([30 - 6/2, width/2 + 11/2 , 4])
+    translate([0,0,5/2])
+    union(){
+        difference(){            
+            rounded_corners(30, width, 5, 5);
+            translate([5,0,0])
+            cube([30, width-2*5, 5*2], true);
+        }
+        
+        translate([-3,-(width-15)/2,0])
+        rounded_corners(5, 14, 5, 5);
+        
+        translate([-3,(width-15)/2,0])
+        rounded_corners(5, 14, 5, 5);        
+    }
 }
 
 module extra_support(){
@@ -92,5 +86,5 @@ module extra_support(){
 module extra_support_mini(){
        translate([2,10,0])    
        rotate([0,0,-16])
-       cube([3,38,5], false);    
+       cube([3,38,5], false);       
 }
