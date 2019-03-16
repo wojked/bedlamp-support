@@ -3,42 +3,22 @@ fudge = 0.1;
 HEIGHT = 5;
 SCALE = 3.58;
 
-scale([SCALE,SCALE,HEIGHT])
-color("orange")
-bed_holder();
-translate([26,42,0])
+//scale([SCALE,SCALE,HEIGHT])
+//color("orange")
+//bed_holder();
+color("pink")
+bed_holder_alt();
+translate([26.5,60,0])
 scale([SCALE,SCALE,HEIGHT])
 color("green")
 lamp_holder();
 
+color("pink")
+lamp_holder_alt();
+
 extra_support();
+extra_support_mini();
 
-module poly_rect38059(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[-21.402370,-14.284470],[11.844033,-14.284470],[11.844033,-8.034546],[-21.402370,-8.034546]]);
-  }
-}
-
-module poly_rect380597(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[-21.402370,8.034553],[11.844033,8.034553],[11.844033,14.284477],[-21.402370,14.284477]]);
-  }
-}
-
-module poly_rect3822(h)
-{
-  scale([25.4/90, -25.4/90, 1]) union()
-  {
-    linear_extrude(height=h)
-      polygon([[11.844030,-25.073326],[21.402370,-25.073326],[21.402370,25.073326],[11.844030,25.073326]]);
-  }
-}
 
 module poly_rect37817(h)
 {
@@ -67,14 +47,21 @@ module poly_rect3781(h)
   }
 }
 
-module bed_holder(){
-    intersection(){
-        union() {
-            poly_rect38059(1);
-            poly_rect380597(1);
-            poly_rect3822(1);    
-        }        
-        cube([8,7,10],true);        
+module bed_holder_alt(){
+    distance = 16.5; //16.5
+    thickness = 5;
+    height = 32;
+    top_lenght = distance + 2*thickness;
+    translate([0,-thickness,0])
+    union(){
+        translate([-height/2,distance/2+thickness,0])
+        cube([height,thickness,5], false);        
+        
+        translate([-height/2,-distance/2,0])
+        cube([height,thickness,5], false);                
+        
+        translate([height/2-thickness, -top_lenght/2+thickness, 0])
+        cube([thickness,top_lenght,5], false);                
     }
 }
 
@@ -90,9 +77,20 @@ module lamp_holder(){
     }    
 }
 
+module lamp_holder_alt(){
+    distance = 30;
+    
+    cube([10,10,10], false);
+}
 
 module extra_support(){
-       translate([-14,10,0])    
-       rotate([0,0,-18])
-       cube([4,82,5], false);    
+       translate([-15,10,0])    
+       rotate([0,0,-16])
+       cube([3,97,5], false);    
+}
+
+module extra_support_mini(){
+       translate([2,10,0])    
+       rotate([0,0,-16])
+       cube([3,38,5], false);    
 }
