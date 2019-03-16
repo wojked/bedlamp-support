@@ -9,7 +9,7 @@ bed_holder_new();
 
 color("pink")
 translate([26.5,60,0])
-lamp_holder_alt();
+lamp_holder_new();
 
 extra_support();
 extra_support_mini();
@@ -46,21 +46,8 @@ module bed_holder_new(){
     }
 }
 
-module lamp_holder(){
-    difference(){        
-        union() {    
-            poly_rect37817(1);
-            poly_rect3779(1);
-            poly_rect3781(1);      
-       };
-       translate([3,0,0])
-       cube([12,25,10], true);     
-    }    
-}
-
-module lamp_holder_alt(){
+module lamp_holder_new(){
     width = 109;
-//    translate([30 - 6/2, width/2 + 11/2 , 4])
     translate([0,0,5/2])
     union(){
         difference(){            
@@ -70,21 +57,25 @@ module lamp_holder_alt(){
         }
         
         translate([-3,-(width-15)/2,0])
-        rounded_corners(5, 14, 5, 5);
+        rounded_corners(3, 14, 5, 3);
         
         translate([-3,(width-15)/2,0])
-        rounded_corners(5, 14, 5, 5);        
+        rounded_corners(3, 14, 5, 3);        
     }
 }
 
 module extra_support(){
-       translate([-15,10,0])    
-       rotate([0,0,-16])
-       cube([3,97,5], false);    
+    translate([1,52,5/2])    
+    rotate([0,0,-17])
+    rounded_corners(3, 88, 5, 3);   
 }
 
 module extra_support_mini(){
-       translate([2,10,0])    
-       rotate([0,0,-16])
-       cube([3,38,5], false);       
+    translate([18,24,5/2])    
+    rotate([0,0,45])
+    rounded_corners(3, 17, 5, 3);       
+    
+    translate([18,109-13,5/2])       
+    rotate([0,0,-45])
+    rounded_corners(3, 17, 5, 3);       
 }
